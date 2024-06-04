@@ -36,7 +36,7 @@ def gen(text: str, font_file:str, font_size: int):
     font = ImageFont.truetype(font_file, font_size - 1)
     frames = [f.convert('RGB') for f in ImageSequence.Iterator(im)]
 
-    for image in frames[9:]:
+    for image in frames[8:]:
         d = ImageDraw.Draw(image)
         d.text(
                DST_POS,

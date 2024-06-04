@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys
-import os.path
+import os
 from PIL import Image, ImageFont, ImageDraw, ImageSequence
 
 DST_WIDTH=270
@@ -12,6 +12,7 @@ DST_POS=(31, 430)
 TXT_COLOR=(0, 0, 0)
 USAGE_MSG=(f"Usage: patric_says.py <text> [OPTIONS]\n"
             f"\t-f, --font FONT_FILE (Default: impact.ttf)\n"
+            f"\t-o, --output PATH (Default: formatted input)"
             f"\t-s, --size FONT_SIZE (Default: auto)")
 
 def find_fill_size(font_file: str, base_size: int, text: str):
@@ -29,7 +30,7 @@ def find_fill_size(font_file: str, base_size: int, text: str):
         else:
             size += 1
 
-def gen(text: str, font_file:str, font_size: int):
+def gen(text: str, font_file:str, font_size: int, output_path: str):
     im = Image.open(BASE_FILE)
     font = ImageFont.truetype(font_file, font_size - 1)
     frames = [f.convert('RGB') for f in ImageSequence.Iterator(im)]
@@ -50,8 +51,7 @@ def gen(text: str, font_file:str, font_size: int):
         )
         del d
 
-    file_name = text.replace(' ', '_').lower()
-    frames[0].save(f"{file_name}.gif", save_all=True, append_images=frames[1:])
+    frames[0].save(f"{output_path}", save_all=True, append_images=frames[1:])
 
 if __name__ == '__main__':
     _, *argv = sys.argv
@@ -66,6 +66,7 @@ if __name__ == '__main__':
     
     font_file = DEFAULT_FONT
     font_size = None
+    output_path = None
 
     i = 0
     while i < len(argv):
@@ -93,6 +94,14 @@ if __name__ == '__main__':
                 exit(1)
             i += 2
 
+        elif arg == "-o" or arg == "--output":
+            if i >= len(argv) - 1:
+                print(USAGE_MSG)
+                print("ERROR: output path specified but not given")
+                exit(1)
+            output_path = argv[i + 1]
+            i += 2
+            
         else:
             print(USAGE_MSG)
             print(f"ERROR: unknown option `{arg}`")
@@ -102,7 +111,14 @@ if __name__ == '__main__':
         print(f"ERROR: cannot open file `{font_file}`")
         exit(1)
 
+    if output_path is None:
+        output_path = text.replace(' ', '_').lower() + ".gif"
+    
+    elif not os.path.exists(os.path.dirname(output_path)):
+        print(f"ERROR: `{output_path}`'s path doesn't exist")
+        exit(1)
+    
     if font_size is None or font_size <= 0:
         font_size = find_fill_size(font_file, START_FONT_SIZE, text)
 
-    gen(text, font_file, font_size)
+    gen(text, font_file, font_size, output_path)

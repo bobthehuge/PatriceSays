@@ -8,6 +8,7 @@ Patrice template GIF maker
 3. Run script. By default, you only need to provide the wanted text
 
 ## Options
-- `<text>`: Wanted text
+- `<text>`: wanted text
 - `-f, --font [PATH]`: font file path. By default, it takes the provided `impact.ttf`
+- `-o, --output [PATH]`: output file path. By default, it formats the given text
 - `-s, --size [SIZE]`: text size. By default or if provided isn't valid (negative or null), it tries to automaticaly max-fit to the destination

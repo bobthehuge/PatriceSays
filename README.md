@@ -1,4 +1,5 @@
 # Patrice Says
+<img src="https://github.com/bobthehuge/PatriceSays/blob/main/demo.gif" width="256" height="256" />
 Patrice template GIF maker
 
 ## HTUI

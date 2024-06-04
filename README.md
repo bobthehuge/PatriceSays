@@ -9,4 +9,4 @@ Patrice template GIF maker
 ## Options
 - `<text>`: Wanted text
 - `-f, --font [PATH]`: font file path. By default, it takes the provided `impact.ttf`
-- `-s, --size [SIZE]`: text size. By default, it tries to automaticaly max-fit to the destination
+- `-s, --size [SIZE]`: text size. By default or if provided isn't valid (negative or null), it tries to automaticaly max-fit to the destination

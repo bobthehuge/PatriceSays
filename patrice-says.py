@@ -29,8 +29,6 @@ def find_fill_size(font_file: str, base_size: int, text: str):
         else:
             size += 1
 
-    # return size
-
 def gen(text: str, font_file:str, font_size: int):
     im = Image.open(BASE_FILE)
     font = ImageFont.truetype(font_file, font_size - 1)
@@ -67,7 +65,7 @@ if __name__ == '__main__':
     _, *argv = argv
     
     font_file = DEFAULT_FONT
-    font_size = 0
+    font_size = None
 
     i = 0
     while i < len(argv):
@@ -104,7 +102,7 @@ if __name__ == '__main__':
         print(f"ERROR: cannot open file `{font_file}`")
         exit(1)
 
-    if font_size == 0:
+    if font_size is None or font_size <= 0:
         font_size = find_fill_size(font_file, START_FONT_SIZE, text)
 
     gen(text, font_file, font_size)
